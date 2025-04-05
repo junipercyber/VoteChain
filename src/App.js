@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CreateProposal from './components/CreateProposal';
 
 function App() {
   const [proposals, setProposals] = useState([]);
@@ -30,6 +31,19 @@ function App() {
     alert(`Voted ${voteChoice ? 'YES' : 'NO'} on proposal ${proposalId}`);
   };
 
+  const createProposal = (title, description, duration) => {
+    const newProposal = {
+      id: proposals.length,
+      title,
+      description,
+      yesVotes: 0,
+      noVotes: 0,
+      endTime: Date.now() + (duration * 60 * 60 * 1000)
+    };
+    setProposals([...proposals, newProposal]);
+    alert('Proposal created successfully!');
+  };
+
   return (
     <div className="container">
       <div className="header">
@@ -42,6 +56,10 @@ function App() {
           <p>✅ Wallet Connected</p>
         )}
       </div>
+
+      {connected && (
+        <CreateProposal onCreateProposal={createProposal} />
+      )}
 
       <div className="proposals">
         <h2>Active Proposals</h2>
