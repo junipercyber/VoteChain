@@ -25,6 +25,10 @@ contract Voting {
         string memory _description,
         uint256 _durationHours
     ) public {
+        require(bytes(_title).length > 0, "Title cannot be empty");
+        require(bytes(_description).length > 0, "Description cannot be empty");
+        require(_durationHours > 0 && _durationHours <= 168, "Duration must be 1-168 hours");
+
         uint256 proposalId = proposalCount++;
 
         proposals[proposalId] = Proposal({
