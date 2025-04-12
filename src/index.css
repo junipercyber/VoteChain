@@ -110,3 +110,40 @@ body {
   background-color: #f44336;
   color: white;
 }
+
+.wallet-info {
+  text-align: center;
+}
+
+.wallet-address {
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.proposal-meta {
+  margin: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.status.active {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.status.expired {
+  background-color: #ffebee;
+  color: #c62828;
+}

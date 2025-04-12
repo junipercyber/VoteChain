@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import CreateProposal from './components/CreateProposal';
+import ProposalStatus from './components/ProposalStatus';
 
 function App() {
   const [proposals, setProposals] = useState([]);
   const [connected, setConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
     // Mock data for now
@@ -21,7 +23,15 @@ function App() {
 
   const connectWallet = async () => {
     if (window.ethereum) {
-      setConnected(true);
+      try {
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts'
+        });
+        setConnected(true);
+        setWalletAddress(accounts[0]);
+      } catch (error) {
+        console.error('Failed to connect wallet:', error);
+      }
     } else {
       alert('Please install MetaMask!');
     }
@@ -53,7 +63,10 @@ function App() {
         {!connected ? (
           <button onClick={connectWallet}>Connect Wallet</button>
         ) : (
-          <p>✅ Wallet Connected</p>
+          <div className="wallet-info">
+            <p>✅ Wallet Connected</p>
+            <p className="wallet-address">{walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}</p>
+          </div>
         )}
       </div>
 
@@ -67,9 +80,12 @@ function App() {
           <div key={proposal.id} className="proposal-card">
             <h3>{proposal.title}</h3>
             <p>{proposal.description}</p>
-            <div className="vote-count">
-              <span>Yes: {proposal.yesVotes}</span>
-              <span style={{marginLeft: '20px'}}>No: {proposal.noVotes}</span>
+            <div className="proposal-meta">
+              <ProposalStatus endTime={proposal.endTime} />
+              <div className="vote-count">
+                <span>Yes: {proposal.yesVotes}</span>
+                <span style={{marginLeft: '20px'}}>No: {proposal.noVotes}</span>
+              </div>
             </div>
 
             {connected && (
