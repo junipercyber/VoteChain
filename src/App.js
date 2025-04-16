@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import CreateProposal from './components/CreateProposal';
 import ProposalStatus from './components/ProposalStatus';
+import VotingHistory from './components/VotingHistory';
 
 function App() {
   const [proposals, setProposals] = useState([]);
@@ -71,7 +72,10 @@ function App() {
       </div>
 
       {connected && (
-        <CreateProposal onCreateProposal={createProposal} />
+        <>
+          <VotingHistory walletAddress={walletAddress} proposals={proposals} />
+          <CreateProposal onCreateProposal={createProposal} />
+        </>
       )}
 
       <div className="proposals">

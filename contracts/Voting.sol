@@ -60,4 +60,27 @@ contract Voting {
 
         emit VoteCast(_proposalId, msg.sender, _vote);
     }
+
+    function getProposalsByCreator(address _creator) public view returns (uint256[] memory) {
+        uint256[] memory result = new uint256[](proposalCount);
+        uint256 counter = 0;
+
+        for (uint256 i = 0; i < proposalCount; i++) {
+            if (proposals[i].creator == _creator) {
+                result[counter] = i;
+                counter++;
+            }
+        }
+
+        uint256[] memory trimmedResult = new uint256[](counter);
+        for (uint256 i = 0; i < counter; i++) {
+            trimmedResult[i] = result[i];
+        }
+
+        return trimmedResult;
+    }
+
+    function getUserVoteStatus(uint256 _proposalId, address _user) public view returns (bool) {
+        return hasVoted[_proposalId][_user];
+    }
 }
