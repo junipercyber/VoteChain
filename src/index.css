@@ -224,3 +224,58 @@ body {
   color: #999;
   font-size: 11px;
 }
+
+.proposals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.proposal-filter {
+  display: flex;
+  align-items: center;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-group label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+}
+
+.filter-group select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
+  .proposals-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .filter-group select {
+    width: 100%;
+  }
+}

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import CreateProposal from './components/CreateProposal';
 import ProposalStatus from './components/ProposalStatus';
 import VotingHistory from './components/VotingHistory';
+import ProposalFilter from './components/ProposalFilter';
 
 function App() {
   const [proposals, setProposals] = useState([]);
   const [connected, setConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
+  const [filterType, setFilterType] = useState('all');
+  const [sortBy, setSortBy] = useState('newest');
 
   useEffect(() => {
     // Mock data for now
@@ -55,6 +58,51 @@ function App() {
     alert('Proposal created successfully!');
   };
 
+  const getFilteredAndSortedProposals = () => {
+    let filtered = [...proposals];
+
+    // Apply filter
+    switch (filterType) {
+      case 'active':
+        filtered = filtered.filter(p => Date.now() < p.endTime);
+        break;
+      case 'expired':
+        filtered = filtered.filter(p => Date.now() >= p.endTime);
+        break;
+      case 'voted':
+        // Mock: assume every other proposal is voted
+        filtered = filtered.filter((_, index) => index % 2 === 0);
+        break;
+      case 'not-voted':
+        // Mock: assume every other proposal is not voted
+        filtered = filtered.filter((_, index) => index % 2 === 1);
+        break;
+      default:
+        break;
+    }
+
+    // Apply sort
+    switch (sortBy) {
+      case 'oldest':
+        filtered.sort((a, b) => a.id - b.id);
+        break;
+      case 'ending-soon':
+        filtered.sort((a, b) => a.endTime - b.endTime);
+        break;
+      case 'most-votes':
+        filtered.sort((a, b) => (b.yesVotes + b.noVotes) - (a.yesVotes + a.noVotes));
+        break;
+      case 'newest':
+      default:
+        filtered.sort((a, b) => b.id - a.id);
+        break;
+    }
+
+    return filtered;
+  };
+
+  const filteredProposals = getFilteredAndSortedProposals();
+
   return (
     <div className="container">
       <div className="header">
@@ -79,8 +127,16 @@ function App() {
       )}
 
       <div className="proposals">
-        <h2>Active Proposals</h2>
-        {proposals.map(proposal => (
+        <div className="proposals-header">
+          <h2>Proposals ({filteredProposals.length})</h2>
+          <ProposalFilter
+            filterType={filterType}
+            sortBy={sortBy}
+            onFilterChange={setFilterType}
+            onSortChange={setSortBy}
+          />
+        </div>
+        {filteredProposals.map(proposal => (
           <div key={proposal.id} className="proposal-card">
             <h3>{proposal.title}</h3>
             <p>{proposal.description}</p>
