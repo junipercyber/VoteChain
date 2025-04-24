@@ -3,6 +3,7 @@ import CreateProposal from './components/CreateProposal';
 import ProposalStatus from './components/ProposalStatus';
 import VotingHistory from './components/VotingHistory';
 import ProposalFilter from './components/ProposalFilter';
+import VoteStats from './components/VoteStats';
 
 function App() {
   const [proposals, setProposals] = useState([]);
@@ -21,6 +22,14 @@ function App() {
         yesVotes: 25,
         noVotes: 12,
         endTime: Date.now() + 86400000
+      },
+      {
+        id: 1,
+        title: "Change Treasury Rules",
+        description: "Modify the governance voting threshold from 51% to 60%",
+        yesVotes: 8,
+        noVotes: 15,
+        endTime: Date.now() + 172800000
       }
     ]);
   }, []);
@@ -142,11 +151,9 @@ function App() {
             <p>{proposal.description}</p>
             <div className="proposal-meta">
               <ProposalStatus endTime={proposal.endTime} />
-              <div className="vote-count">
-                <span>Yes: {proposal.yesVotes}</span>
-                <span style={{marginLeft: '20px'}}>No: {proposal.noVotes}</span>
-              </div>
             </div>
+
+            <VoteStats yesVotes={proposal.yesVotes} noVotes={proposal.noVotes} />
 
             {connected && (
               <div className="vote-buttons">

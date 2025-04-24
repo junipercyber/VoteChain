@@ -279,3 +279,62 @@ body {
     width: 100%;
   }
 }
+
+.vote-stats {
+  margin: 15px 0;
+}
+
+.stats-header {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #666;
+  font-weight: bold;
+}
+
+.vote-bar {
+  display: flex;
+  height: 25px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  margin-bottom: 8px;
+}
+
+.vote-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  transition: width 0.3s ease;
+}
+
+.yes-segment {
+  background-color: #4CAF50;
+}
+
+.no-segment {
+  background-color: #f44336;
+}
+
+.vote-label {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.percentage-display {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.yes-percent {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.no-percent {
+  color: #f44336;
+  font-weight: bold;
+}
